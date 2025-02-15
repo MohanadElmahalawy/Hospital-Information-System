@@ -1,0 +1,104 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+header {
+    background-color: #003366;
+    padding: 15px ;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+ .logo {
+    fill:white;
+    margin-right: 20px;
+height: 30px;
+width: 30px;
+}
+ ul {
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+ li {
+    display:inline;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+
+
+
+
+.mainbody{
+display: flex;
+justify-content: center;
+align-items: center;
+height: 80vh;
+}
+.login-f{  
+background: white;
+padding: 30px;
+border-radius: 10px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+width: 300px;
+}
+
+.login-f input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 7px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.login-f button{
+    width: 100%;
+    padding: 10px;
+    background-color: #003366;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.login-f p{
+    font-size: small;
+    margin-top: 20px;
+    
+}
+footer {
+    background-color: #003366;
+    color: white;
+    text-align: center;
+    padding: 20px ;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.quick-links a, .social-links a {
+    color: white;
+    text-decoration: none;
+    margin: 10px;
+}
