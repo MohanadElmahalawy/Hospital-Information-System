@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dental Hospital Information System</title>
+    <link rel="stylesheet" href="homepage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+    <section id="Homepage">
+        <nav class="NavBar">
+            <h2 class="logo">
+                <i style="color: #91aabf; font-size: 30px;" class="fa-solid fa-tooth"></i>
+                <a href="#Homepage"> Ehealth</a>
+            </h2>
+            <div class="nav-links">
+                <a class="active" href="#Homepage">Home</a>
+                <a href="#news">News</a>
+                <a href="#contact">Contact</a>
+                <a href="#about">About</a>
+            </div>
+        </nav>
+        
+        
+        <!-- Slideshow container -->
+        <div class="slideshow-container">
+
+    <!-- Full-width images with number and caption text -->
+        <div class="mySlides fade">
+            <div class="numbertext">1 / 3</div>
+            <img src="img1.jpg" style="width:100%">
+            <div class="text">Up- to Date Equipment</div>
+        </div>
+  
+        <div class="mySlides fade">
+            <div class="numbertext">2 / 3</div>
+            <img src="img2.jpg" style="width:100%">
+            <div class="text">For kids and adults</div>
+        </div>  
+  
+        <div class="mySlides fade">
+            <div class="numbertext">3 / 3</div>
+            <img src="R.jpg" style="width:100%">
+            <div class="text">Highly Trained Staff </div>
+        </div>
+  
+    <!-- Next and previous buttons -->
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+    <br>
+  
+  <!-- The dots/circles -->
+    <div style="text-align:center">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+        
+        <div class="Doctors">
+            <h2 style="color: #244667; font-size: 30px; text-align: center;">Our Specialists</h2>
+            <div class="parent">
+                <div class="Doc1">
+                    <img class="docImg" src="Doc1.jpg" alt="Doctor Sarah Johnson">
+                    <h3>Dr. Sarah Johnson, DDS</h3>
+                    <p>With over 10 years of experience, Dr. Sarah Johnson is dedicated to providing comprehensive dental care in a comfortable and welcoming environment. She specializes in preventive dentistry, cosmetic treatments, and restorative procedures, ensuring every patient leaves with a confident smile. Dr. Johnson believes in patient education and personalized care, making dental visits stress-free and effective.</p>
+                    </p>
+                </div>
+                <div class="doc2">
+                    <img class="docImg" src="doc2.jpg" alt="Dr. Michael Carter">
+                    <h3>Dr. Michael Carter, DMD</h3>
+                    <p>Dr. Michael Carter is a board-certified pediatric dentist who has a passion for working with children. With a gentle approach and a friendly demeanor, he makes dental visits fun and educational for kids of all ages. His expertise includes preventive care, cavity treatments, and orthodontic evaluations to ensure a lifetime of healthy smiles.</p>
+                </div>
+                <div class="doc3">
+                    <img class="docImg" src="doc3.jpg" alt="Doctor ">
+                    <h3>Dr. Emily Rodriguez, DDS- Cosmetic Dentistry Expert</h3>
+                    <p> Dr. Emily Rodriguez is a leading cosmetic dentist specializing in smile makeovers, teeth whitening, veneers, and Invisalign treatments. With a keen eye for aesthetics and precision, he transforms smiles while maintaining a natural look. His goal is to boost confidence through personalized cosmetic solutions.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="Feedback">
+            <form action="submit_feedback.php" method="POST">
+                <label>Name:</label>
+                <input type="text" name="name" placeholder="Enter your name" required>
+
+                <label>Patient ID:</label>
+                <input type="number" name="patient_id" placeholder="Enter your ID" required>
+
+                <label>Type in your feedback:</label>
+                <textarea id="feedback" name="feedback" placeholder="Your Feedback" required></textarea>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </section>
+
+</body>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div id="Sec1" class="footer-section">
+            <h2 class="logo"><i style="color: #91aabf; font-size: 30px;" class="fa-solid fa-tooth"></i><a href="#Homepage">  Ehealth</a></h2>
+            <ul class="links">
+                <li class="links"><a href="#">About Us</a></li>
+                <li class="links"><a href="#">Annual Checkup</a></li>
+                <li class="links"><a href="#">Blog</a></li>
+                <li class="links"><a href="#">Careers</a></li>
+            </ul>
+        </div>
+
+        <div id="Sec2" class="footer-section">
+            <ul>
+                <li><a href="#">Get A Diagnosis</a></li>
+                <li><a href="#">How It Works</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">FAQ's</a></li>
+            </ul>
+        </div>
+
+        <!-- <div id="Sec3" class="footer-section">
+            <h3>Top Insurances</h3>
+            <ul>
+                <li><a href="#">Aetna</a></li>
+                <li><a href="#">Health Plan</a></li>
+                <li><a href="#">Blue Shield</a></li>
+                <li><a href="#">Health Net</a></li>
+                <li><a href="#">Health Smart</a></li>
+                <li><a href="#">View More</a></li>
+            </ul>
+        </div> -->
+
+        <div id="Sec4" class="footer-section">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="#" class="sl"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="sl"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="sl"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="sl"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>All rights reserved by WPDeveloper 2020</p>
+        <div>
+            <a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a>
+        </div>
+    </div>
+    <script src="project.js"></script>
+</footer>
+
+</html>
