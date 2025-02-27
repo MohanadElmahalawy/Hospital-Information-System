@@ -1,9 +1,0 @@
-/my-project
-|-- /node_modules
-|-- /models           # Mongoose models (User, Doctor, Patient, etc.)
-|-- /routes           # API routes (admin.js, doctor.js, patient.js)
-|-- /middleware       # Middleware (authMiddleware.js)
-|-- /controllers      # Logic to handle requests (authController.js)
-|-- .env              # Environment variables (JWT secret, MongoDB URI, etc.)
-|-- server.js         # Entry point for your backend app
-|-- package.json      # Project dependencies and scripts
