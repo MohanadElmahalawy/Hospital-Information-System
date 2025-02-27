@@ -1,21 +1,22 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-module.exports = (req, res, next) => {
-  // Get token from Authorization header
-  const token = req.header('Authorization')?.replace('Bearer ', ''); // Extract token
+const authMiddleware = (req, res, next) => {
+    const authHeader = req.header('Authorization');
 
-  if (!token) {
-    return res.status(401).json({ message: 'Access denied. No token provided.' });
-  }
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ msg: 'No token, authorization denied' });
+    }
 
-  try {
-    // Verify the token using the JWT_SECRET from .env
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const token = authHeader.split(" ")[1]; // Extract the token
 
-    // Attach the decoded user info to the request object
-    req.user = decoded;
-    next(); // Proceed to the next middleware or route handler
-  } catch (err) {
-    res.status(400).json({ message: 'Invalid token' });
-  }
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded; // Attach the user payload to the request
+        next();
+    } catch (err) {
+        res.status(401).json({ msg: 'Invalid token , access denied' });
+    }
 };
+
+module.exports = authMiddleware;
