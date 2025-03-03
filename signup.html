@@ -3,114 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Signup - Dental Section</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <title>Patient Signup</title>
     <link rel="stylesheet" href="signup.css">
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
 </head>
 <body>
 
-    <nav class="navbar">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M186.1 52.1C169.3 39.1 148.7 32 127.5 32C74.7 32 32 74.7 32 127.5l0 6.2c0 15.8 3.7 31.3 10.7 45.5l23.5 47.1c4.5 8.9 7.6 18.4 9.4 28.2l36.7 205.8c2 11.2 11.6 19.4 22.9 19.8s21.4-7.4 24-18.4l28.9-121.3C192.2 323.7 207 312 224 312s31.8 11.7 35.8 28.3l28.9 121.3c2.6 11.1 12.7 18.8 24 18.4s20.9-8.6 22.9-19.8l36.7-205.8c1.8-9.8 4.9-19.3 9.4-28.2l23.5-47.1c7.1-14.1 10.7-29.7 10.7-45.5l0-2.1c0-55-44.6-99.6-99.6-99.6c-24.1 0-47.4 8.8-65.6 24.6l-3.2 2.8 19.5 15.2c7 5.4 8.2 15.5 2.8 22.5s-15.5 8.2-22.5 2.8l-24.4-19-37-28.8z"/></svg>
-        <ul>
-            <li><a href="#Home">Home</a></li>
-            <li><a href="#About">About</a></li>
-            <li><a href="#News">News</a></li>
-            <li><a href="#Contact">Contact</a></li>
-        </ul>
-    </nav>
-
-    <div class="container">
-        <div class="signup-card">
-            <h3 class="text-center">Patient Signup</h3>
-            <form id="signupForm">
-                <label for="firstName">First Name</label>
-                <input type="text" id="firstName" required>
-
-                <label for="lastName">Last Name</label>
-                <input type="text" id="lastName" required>
-
-                <label for="dob">Date of Birth</label>
-                <input type="date" id="dob" required>
-
-                <label for="gender">Gender</label>
-                <select id="gender" required>
-                    <option value="" disabled selected>Select your gender</option>
+    <div class="container mt-5">
+        <h2 class="text-center">Patient Signup</h2>
+        <form id="signupForm">
+            <div class="mb-3">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" id="firstName" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" id="lastName" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="dob" class="form-label">Date of Birth</label>
+                <input type="date" id="dob" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="gender" class="form-label">Gender</label>
+                <select id="gender" class="form-control" required>
+                    <option value="" disabled selected>Select gender</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                 </select>
-
-                <label for="email">Email</label>
-                <input type="email" id="email" required>
-
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" required>
-
-                <label for="password">Password</label>
-                <input type="password" id="password" required>
-
-                <label for="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" id="phone" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" id="confirmPassword" class="form-control" required>
                 <small id="passwordError" class="text-danger d-none">Passwords do not match!</small>
-
-                <button type="submit">Sign Up</button>
-
-                <p class="text-center">
-                    Already have an account? <a href="login.html">Login here</a>
-                </p>
-            </form>
-        </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+        </form>
+        <p class="text-center mt-3">Already have an account? <a href="login.html">Login here</a></p>
     </div>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Contact Us</h4>
-                <p>Email: info@dentalsystem.com</p>
-                <p>Phone: +1 (234) 567-890</p>
-                <p>Address: 123 Dental St, Medical City</p>
-            </div>
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="home.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="login.html">Login</a></li>
-                    <li><a href="signup.html">Sign Up</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Follow Us</h4>
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Dental Information System | All Rights Reserved</p>
-        </div>
-    </footer>
-
-    <script>
-        document.getElementById("signupForm").addEventListener("submit", function(event) {
-            event.preventDefault(); 
-            
-            let password = document.getElementById("password").value;
-            let confirmPassword = document.getElementById("confirmPassword").value;
-            let errorText = document.getElementById("passwordError");
-
-            if (password !== confirmPassword) {
-                errorText.classList.remove("d-none");
-            } else {
-                errorText.classList.add("d-none");
-                alert("Signup Successful!");
-                this.reset();
-            }
-        });
-    </script>
-
+    <script src="signup.js"></script>
 </body>
 </html>
