@@ -48,3 +48,46 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ message: "Internal server error" });
 });
+
+app.post("/api/auth/login", async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        // Check if user exists
+        const user = await User.findOne({ email });
+        if (!user) return res.status(401).json({ message: "Invalid email or password" });
+
+        // Validate password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return res.status(401).json({ message: "Invalid email or password" });
+
+        // Generate JWT Token
+        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
+            expiresIn: "1h",
+        });
+
+        // Send response
+        res.json({ token, role: user.role });
+    } catch (err) {
+        res.status(500).json({ message: "Server Error" });
+    }
+});
+
+// API: Register (for testing)
+app.post("/api/auth/register", async (req, res) => {
+    const { email, password, role } = req.body;
+
+    try {
+        // Hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Save user
+        const newUser = new User({ email, password: hashedPassword, role });
+        await newUser.save();
+
+        res.json({ message: "User Registered Successfully" });
+    } catch (err) {
+        res.status(500).json({ message: "Server Error" });
+    }
+});
