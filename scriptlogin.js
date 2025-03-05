@@ -13,16 +13,16 @@ async function login(event) {
 
     const loginData = {
         email: email,
-        password: password
+        password: password,
     };
 
     try {
-        const response = await fetch(`${API_BASE_URL}/auth/login`, {
+        const response = await fetch(`${API_BASE_URL}/login`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify(loginData)
+            body: JSON.stringify(loginData),
         });
 
         if (response.ok) {
@@ -30,22 +30,24 @@ async function login(event) {
             localStorage.setItem("token", data.token);  // Save JWT token
 
             // Check user role and redirect accordingly
-            if (data.role === "Doctor") {
-                window.location.href = "indexdr.html";  // Redirect to doctor page
-            } else if (data.role === "Admin") {
-                window.location.href = "admin.html";  // Redirect to admin page
-            } else if (data.role === "Patient") {
-                window.location.href = "PatientPage.html";  // Redirect to Patient page
-            } else {
-                alert("Unknown user role!");
+            switch (data.role) {
+                case "Doctor":
+                    window.location.href = "indexdr.html";
+                    break;
+                case "Admin":
+                    window.location.href = "admin.html";
+                    break;
+                case "Patient":
+                    window.location.href = "PatientPage.html";
+                    break;
+                default:
+                    alert("Unknown user role!");
             }
         } else if (response.status === 401) {
             alert("Invalid email or password.");
-        } else if (data.token) {
-            localStorage.setItem("token", data.token);
         } else {
-            alert("Login successful, but no token received.");
-            return;
+            console.log("Login failed:", response.status);
+            alert("Login failed. Please try again.");
         }
     } catch (error) {
         console.error("Error during login:", error);
