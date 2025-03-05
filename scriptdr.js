@@ -24,7 +24,7 @@ async function getDoctorProfile() {
             const doctor = await response.json();
             document.getElementById("email").value = doctor.email;
             document.getElementById("phone").value = doctor.phone;
-            document.getElementById("birthDate").value = doctor.birthDate;
+            document.getElementById("birthdate").value = doctor.birthDate;
         } else {
             console.log("Failed to fetch doctor profile:", response.status);
         }
@@ -41,7 +41,7 @@ async function updateDoctorProfile(event) {
     const updatedProfile = {
         email: document.getElementById("email").value,
         phone: document.getElementById("phone").value,
-        birthDate: document.getElementById("birthDate").value
+        birthDate: document.getElementById("birthdate").value
     };
 
     try {
