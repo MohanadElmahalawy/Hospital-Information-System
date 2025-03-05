@@ -27,7 +27,7 @@ document.getElementById("signupForm").addEventListener("submit", async function(
         email,
         phoneNumber,
         password,
-        role: "patient"
+        role: "Patient"
     };
 
     try {

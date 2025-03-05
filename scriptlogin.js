@@ -30,20 +30,22 @@ async function login(event) {
             localStorage.setItem("token", data.token);  // Save JWT token
 
             // Check user role and redirect accordingly
-            if (data.role === "doctor") {
+            if (data.role === "Doctor") {
                 window.location.href = "indexdr.html";  // Redirect to doctor page
-            } else if (data.role === "admin") {
-                window.location.href = "indexadmin.html";  // Redirect to admin page
-            } else if (data.role === "receptionist") {
-                window.location.href = "indexreceptionist.html";  // Redirect to receptionist page
+            } else if (data.role === "Admin") {
+                window.location.href = "admin.html";  // Redirect to admin page
+            } else if (data.role === "Patient") {
+                window.location.href = "PatientPage.html";  // Redirect to Patient page
             } else {
                 alert("Unknown user role!");
             }
         } else if (response.status === 401) {
             alert("Invalid email or password.");
+        } else if (data.token) {
+            localStorage.setItem("token", data.token);
         } else {
-            console.log("Login failed:", response.status);
-            alert("Login failed. Please try again.");
+            alert("Login successful, but no token received.");
+            return;
         }
     } catch (error) {
         console.error("Error during login:", error);
