@@ -27,9 +27,18 @@ async function login(event) {
 
         if (response.ok) {
             const data = await response.json();
-            localStorage.setItem("token", data.token);  // Save JWT token to local storage
-            alert("Login successful!");
-            window.location.href = "indexdr.html";  // Redirect to doctor page
+            localStorage.setItem("token", data.token);  // Save JWT token
+
+            // Check user role and redirect accordingly
+            if (data.role === "doctor") {
+                window.location.href = "indexdr.html";  // Redirect to doctor page
+            } else if (data.role === "admin") {
+                window.location.href = "indexadmin.html";  // Redirect to admin page
+            } else if (data.role === "receptionist") {
+                window.location.href = "indexreceptionist.html";  // Redirect to receptionist page
+            } else {
+                alert("Unknown user role!");
+            }
         } else if (response.status === 401) {
             alert("Invalid email or password.");
         } else {
