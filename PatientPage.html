@@ -3,65 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Patient Information</title>
+  <title>Patient Portal</title>
   <link rel="stylesheet" href="PatientPage.css">
 </head>
-<header class="navbar navbar-expand-lg navbar-dark bg-primary p-3">
-    <div style="width: 100% ;" class="container d-flex align-items-center">
-        <h1 class="text-white mb-0">Patient Portal</h1>
-    </div>
-</header>
 <body>
 
-  <div class="container">
-    <h1>Patient Information</h1>
-    
-    <!-- Patient Info Form -->
-    <form id="patient-form">
-      <label for="patient-name">Name:</label>
-      <input type="text" id="patient-name" value="Sarah Johnson" />
+  <!-- ✅ Navbar -->
+  <header class="navbar navbar-expand-lg navbar-dark bg-primary p-3">
+      <div class="container d-flex align-items-center justify-content-between">
+          <h1 class="text-white mb-0">Patient Portal</h1>
+          <button class="btn btn-light" onclick="logout()">Logout</button>
+      </div>
+  </header>
 
-      <label for="patient-email">Email:</label>
-      <input type="email" id="patient-email" value="sarah@example.com" />
+  <!-- ✅ Main Container -->
+  <div class="container mt-4">
+    <h1 class="text-center">Patient Information</h1>
 
-      <label for="patient-phone">Phone:</label>
-      <input type="tel" id="patient-phone" value="123-456-7890" />
+    <!-- ✅ Patient Info Form -->
+    <form id="patient-form" class="p-4 border rounded shadow-sm bg-light">
+      <div class="mb-3">
+        <label for="patient-name" class="form-label">Name:</label>
+        <input type="text" id="patient-name" class="form-control" required>
+      </div>
 
-      <label for="patient-address">Address:</label>
-      <input type="text" id="patient-address" value="123 Main St" />
+      <div class="mb-3">
+        <label for="patient-email" class="form-label">Email:</label>
+        <input type="email" id="patient-email" class="form-control" required>
+      </div>
 
-      <label for="patient-gender">Gender:</label>
-      <input type="text" id="patient-gender" value="Female" disabled />
+      <div class="mb-3">
+        <label for="patient-phone" class="form-label">Phone:</label>
+        <input type="tel" id="patient-phone" class="form-control" required>
+      </div>
 
-      <button type="submit">Save</button>
+      <div class="mb-3">
+        <label for="patient-address" class="form-label">Address:</label>
+        <input type="text" id="patient-address" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="patient-gender" class="form-label">Gender:</label>
+        <input type="text" id="patient-gender" class="form-control" disabled>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Save</button>
     </form>
 
-    <hr>
-    <br>
-    <h2>Doctors List</h2>
-    <table id="doctors-table">
-      <thead>
-        <tr>
-          <th>Doctor's Name</th>
-          <th>Phone Number</th>
-        </tr>
+    <hr class="my-4">
+    
+    <!-- ✅ Doctors List -->
+    <h2 class="text-center">Available Doctors</h2>
+    <table id="doctors-table" class="table table-striped mt-3">
+      <thead class="table-dark">
+          <tr>
+              <th>Doctor's Name</th>
+              <th>Phone Number</th>
+          </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>Dr. Jane Smith</td>
-          <td>+0987654321</td>
-        </tr>
-        <tr>
-          <td>Dr. John Doe</td>
-          <td>+1234567890</td>
-        </tr>
-        <tr>
-          <td>Dr. Clara Adams</td>
-          <td>+321-654-9870</td>
-        </tr>
+      <tbody id="doctorsTableBody">
+          <!-- Doctors will be dynamically inserted here -->
       </tbody>
-    </table>
+  </table>
+  
   </div>
+
+  <!-- ✅ Footer -->
   <footer class="footer bg-primary text-white text-center p-3 mt-4">
     <div class="container">
         <h5>Contact</h5>
@@ -71,7 +78,8 @@
         </ul>
         <div class="mt-3">&copy; 2025 Patient Portal | All Rights Reserved</div>
     </div>
-</footer>
+  </footer>
+
   <script src="PatientPage.js"></script>
 </body>
 </html>
