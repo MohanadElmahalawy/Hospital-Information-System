@@ -66,35 +66,40 @@ async function updateDoctorProfile(event) {
 
 // Function to get patient list
 async function getPatientList() {
+    const token = getToken();
+    if (!token) {
+        alert("No token found. Please log in.");
+        return;
+    }
+
     try {
-        const token = getToken();
-        const response = await fetch(`${API_BASE_URL}/doctor/patients`, {
+        const response = await fetch(`${BASE_URL}/api/doctor/patients`, {
             method: "GET",
             headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}` // Include token
             }
         });
 
-        if (response.ok) {
-            const patients = await response.json();
-            const patientTable = document.getElementById("patientTableBody");
-            patientTable.innerHTML = ""; // Clear existing data
+        const users = await response.json();
+        if (!response.ok) throw new Error(users.msg || "Failed to fetch patients");
+        const patientTable = document.getElementById("patientTable");
 
-            patients.forEach((patient) => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${patient.name}</td>
-                    <td>${patient.age}</td>
-                    <td>${patient.phone}</td>
-                `;
-                patientTable.appendChild(row);
-            });
-        } else {
-            console.log("Failed to fetch patients:", response.status);
-        }
+        patientTable.innerHTML = patients.map(patient => `
+            <tr>
+                <td>${patient.firstName} ${patient.lastName}</td>
+                <td>${patient.email}</td>
+                <td>${patient.phoneNumber}</td>
+                <td>
+                    <button class="btn btn-danger btn-sm" onclick="removePatient('${patient._id}')">
+                        Remove
+                    </button>
+                </td>
+            </tr>
+        `).join("");
     } catch (error) {
         console.error("Error fetching patients:", error);
+        alert("Error fetching patients: " + error.message);
     }
 }
 
