@@ -46,5 +46,19 @@ router.get("/patients", authMiddleware, async (req, res) => {
     res.status(500).json({ msg: "Server error", error: error.message });
   }
 });
-
+router.get("/me", authMiddleware, async (req, res) => {
+    try {
+      if (req.user.role !== "Doctor") {
+        return res.status(403).json({ msg: "Access denied! Only doctors can view their profile." });
+      }
+  
+      const doctor = await User.findById(req.user.id).select("-password");
+      if (!doctor) return res.status(404).json({ msg: "Doctor not found" });
+  
+      res.json(doctor);
+    } catch (error) {
+      res.status(500).json({ msg: "Server error", error: error.message });
+    }
+  });
+  
 module.exports = router;

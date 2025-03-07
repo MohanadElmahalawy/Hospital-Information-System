@@ -1,111 +1,150 @@
-// scriptdr.js
+const API_BASE_URL = "http://localhost:3000/api"; // Ensure this matches your backend URL
 
-// API base URL
-const API_BASE_URL = "http://localhost:3000/api";
-
-// Function to get token from local storage
-function getToken() {
-    return localStorage.getItem("token");
-}
-
-// Function to get doctor profile
-async function getDoctorProfile() {
-    try {
-        const token = getToken();
-        const response = await fetch(`${API_BASE_URL}/doctor/profile`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
-        });
-
-        if (response.ok) {
-            const doctor = await response.json();
-            document.getElementById("email").value = doctor.email;
-            document.getElementById("phone").value = doctor.phone;
-            document.getElementById("birthdate").value = doctor.birthDate;
-        } else {
-            console.log("Failed to fetch doctor profile:", response.status);
-        }
-    } catch (error) {
-        console.error("Error fetching doctor profile:", error);
-    }
-}
-
-// Function to update doctor profile
-async function updateDoctorProfile(event) {
-    event.preventDefault();
-
-    const token = getToken();
-    const updatedProfile = {
-        email: document.getElementById("email").value,
-        phone: document.getElementById("phone").value,
-        birthDate: document.getElementById("birthdate").value
-    };
-
-    try {
-        const response = await fetch(`${API_BASE_URL}/doctor/profile`, {
-            method: "PUT",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(updatedProfile)
-        });
-
-        if (response.ok) {
-            alert("Profile updated successfully!");
-        } else {
-            console.log("Failed to update profile:", response.status);
-        }
-    } catch (error) {
-        console.error("Error updating profile:", error);
-    }
-}
-
-// Function to get patient list
-async function getPatientList() {
-    const token = getToken();
+// Ensure only authenticated doctors can access the page
+document.addEventListener("DOMContentLoaded", async function () {
+    const token = localStorage.getItem("token");
     if (!token) {
-        alert("No token found. Please log in.");
+        window.location.href = "login.html"; // Redirect if user is not logged in
         return;
     }
 
+    await fetchDoctorInfo(token);  // Load doctor profile
+    await fetchPatients(token); // Load patient list
+});
+
+// Logout function
+function logout() {
+    localStorage.removeItem("token"); // Remove authentication token
+    sessionStorage.removeItem("token");
+    window.location.href = "login.html"; // Redirect to login page
+}
+
+// Function to calculate age from birthDate
+function calculateAge(birthDate) {
+    if (!birthDate) return "N/A"; // Return N/A if birthDate is missing
+
+    const birth = new Date(birthDate); // Convert string to Date object
+    if (isNaN(birth.getTime())) return "N/A"; // Handle invalid date formats
+
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+
+    // If birth month and day haven't occurred yet this year, subtract one year
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+        age--;
+    }
+
+    return age;
+}
+
+// Fetch and display doctor profile info
+async function fetchDoctorInfo(token) {
     try {
-        const response = await fetch(`${BASE_URL}/api/doctor/patients`, {
+        console.log("Fetching doctor profile...");
+        const response = await fetch(`${API_BASE_URL}/doctor/me`, {
             method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}` // Include token
-            }
+            headers: { "Authorization": `Bearer ${token}` },
         });
 
-        const users = await response.json();
-        if (!response.ok) throw new Error(users.msg || "Failed to fetch patients");
-        const patientTable = document.getElementById("patientTable");
+        if (!response.ok) {
+            const errorMsg = await response.text();
+            throw new Error("Failed to fetch doctor info: " + errorMsg);
+        }
 
-        patientTable.innerHTML = patients.map(patient => `
-            <tr>
+        const doctor = await response.json();
+        console.log("Doctor profile:", doctor);
+
+        // Fix date format for input field
+        if (doctor.birthDate) {
+            const formattedDate = doctor.birthDate.split("T")[0]; // Extract YYYY-MM-DD
+            document.getElementById("birthdate").value = formattedDate;
+        } else {
+            document.getElementById("birthdate").value = "";
+        }
+
+        document.getElementById("email").value = doctor.email || "";
+        document.getElementById("phone").value = doctor.phoneNumber || "";
+
+    } catch (error) {
+        console.error("Error fetching doctor info:", error);
+        alert("Error fetching doctor info: " + error.message);
+    }
+}
+
+// Fetch and display list of patients
+async function fetchPatients(token) {
+    try {
+        console.log("Fetching patients list...");
+        const response = await fetch(`${API_BASE_URL}/doctor/patients`, {
+            method: "GET",
+            headers: { "Authorization": `Bearer ${token}` },
+        });
+
+        if (!response.ok) {
+            const errorMsg = await response.text();
+            throw new Error("Failed to fetch patients: " + errorMsg);
+        }
+
+        const patients = await response.json();
+        console.log("Patients list:", patients);
+
+        const patientsTableBody = document.getElementById("patientTable");
+        patientsTableBody.innerHTML = ""; // Clear previous data
+
+        if (patients.length === 0) {
+            patientsTableBody.innerHTML = `<tr><td colspan="3" class="text-center">No patients available</td></tr>`;
+            return;
+        }
+
+        patients.forEach((patient) => {
+            const birthDate = patient.birthDate ? patient.birthDate.split("T")[0] : null; // Extract YYYY-MM-DD format
+            const age = calculateAge(birthDate); // Calculate age properly
+
+            const row = document.createElement("tr");
+            row.innerHTML = `
                 <td>${patient.firstName} ${patient.lastName}</td>
-                <td>${patient.email}</td>
+                <td>${age}</td>
                 <td>${patient.phoneNumber}</td>
-                <td>
-                    <button class="btn btn-danger btn-sm" onclick="removePatient('${patient._id}')">
-                        Remove
-                    </button>
-                </td>
-            </tr>
-        `).join("");
+            `;
+            patientsTableBody.appendChild(row);
+        });
     } catch (error) {
         console.error("Error fetching patients:", error);
         alert("Error fetching patients: " + error.message);
     }
 }
 
-// Event listeners
-document.getElementById("updateProfileForm").addEventListener("submit", updateDoctorProfile);
-document.addEventListener("DOMContentLoaded", () => {
-    getDoctorProfile();
-    getPatientList();
+// Update doctor profile when clicking the Save button
+document.getElementById("submit").addEventListener("click", async function () {
+    const token = localStorage.getItem("token");
+
+    const updatedDoctor = {
+        email: document.getElementById("email").value,
+        phoneNumber: document.getElementById("phone").value,
+        birthDate: document.getElementById("birthdate").value,
+    };
+
+    try {
+        console.log("Updating doctor profile...");
+        const response = await fetch(`${API_BASE_URL}/doctor/edit-profile`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+            body: JSON.stringify(updatedDoctor),
+        });
+
+        if (!response.ok) {
+            const errorMsg = await response.text();
+            throw new Error("Failed to update doctor info: " + errorMsg);
+        }
+
+        alert("Profile updated successfully!");
+        await fetchDoctorInfo(token); // Refresh doctor info
+    } catch (error) {
+        console.error("Error updating doctor info:", error);
+        alert("Error updating profile: " + error.message);
+    }
 });
