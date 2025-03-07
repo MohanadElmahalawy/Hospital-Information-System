@@ -10,6 +10,21 @@ function getToken() {
     return localStorage.getItem("token");
 }
 
+// Function to standardize gender input
+function standardizeGender(gender) {
+    if (!gender) return "";
+    
+    const normalizedGender = gender.trim().toLowerCase();
+    
+    if (normalizedGender === "male" || normalizedGender === "m") {
+        return "Male";
+    } else if (normalizedGender === "female" || normalizedGender === "f") {
+        return "Female";
+    } else {
+        return gender; // Return original if not matching known values
+    }
+}
+
 // Fetch and display doctors
 async function fetchDoctors() {
     const token = getToken();
@@ -99,14 +114,17 @@ async function addDoctor() {
     const email = prompt("Enter doctor's email:");
     const phoneNumber = prompt("Enter doctor's phone number:");
     const birthDate = prompt("Enter doctor's birth date (YYYY-MM-DD):");
-    const gender = prompt("Enter doctor's gender:");
+    const rawGender = prompt("Enter doctor's gender (Male/Female):");
     const expertiseLevel = prompt("Enter doctor's expertise level:");
     const password = prompt("Enter a password for the doctor:");
 
-    if (!firstName || !lastName || !email || !phoneNumber || !birthDate || !gender || !expertiseLevel || !password) {
+    if (!firstName || !lastName || !email || !phoneNumber || !birthDate || !rawGender || !expertiseLevel || !password) {
         alert("All fields are required!");
         return;
     }
+    
+    // Standardize gender input
+    const gender = standardizeGender(rawGender);
 
     const token = getToken();
     if (!token) {
@@ -130,7 +148,7 @@ async function addDoctor() {
         alert(data.msg);
         fetchDoctors();
     } catch (error) {
-        console.error("Error adding doctor:", error);
+        console.error("Error adding doctor:", error.message);
         alert("Error adding doctor: " + error.message);
     }
 }

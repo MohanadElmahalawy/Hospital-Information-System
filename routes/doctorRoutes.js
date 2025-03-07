@@ -18,9 +18,21 @@ router.put("/edit-profile", authMiddleware, async (req, res) => {
     const doctor = await User.findById(req.user.id);
     if (!doctor) return res.status(404).json({ msg: "Doctor not found" });
 
-    // Update only allowed fields
+    // Check if email is being updated and is unique
+    if (email && email !== doctor.email) {
+      // Check if the email is already taken
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return res.status(400).json({ 
+          msg: "This email is already in use",
+          alert: true
+        });
+      }
+      doctor.email = email;
+    }
+
+    // Update other allowed fields
     if (birthDate) doctor.birthDate = birthDate;
-    if (email) doctor.email = email;
     if (phoneNumber) doctor.phoneNumber = phoneNumber;
 
     await doctor.save();
@@ -29,6 +41,7 @@ router.put("/edit-profile", authMiddleware, async (req, res) => {
     res.status(500).json({ msg: "Server error", error: error.message });
   }
 });
+
 router.get("/patients", authMiddleware, async (req, res) => {
   try {
     if (req.user.role !== "Doctor") {
@@ -46,19 +59,20 @@ router.get("/patients", authMiddleware, async (req, res) => {
     res.status(500).json({ msg: "Server error", error: error.message });
   }
 });
+
 router.get("/me", authMiddleware, async (req, res) => {
-    try {
-      if (req.user.role !== "Doctor") {
-        return res.status(403).json({ msg: "Access denied! Only doctors can view their profile." });
-      }
-  
-      const doctor = await User.findById(req.user.id).select("-password");
-      if (!doctor) return res.status(404).json({ msg: "Doctor not found" });
-  
-      res.json(doctor);
-    } catch (error) {
-      res.status(500).json({ msg: "Server error", error: error.message });
+  try {
+    if (req.user.role !== "Doctor") {
+      return res.status(403).json({ msg: "Access denied! Only doctors can view their profile." });
     }
-  });
-  
+    
+    const doctor = await User.findById(req.user.id).select("-password");
+    if (!doctor) return res.status(404).json({ msg: "Doctor not found" });
+    
+    res.json(doctor);
+  } catch (error) {
+    res.status(500).json({ msg: "Server error", error: error.message });
+  }
+});
+
 module.exports = router;
