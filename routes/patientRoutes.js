@@ -45,10 +45,13 @@ router.get("/doctors", authMiddleware, async (req, res) => {
 });
 router.get("/me", authMiddleware, async (req, res) => {
     try {
-        const patient = await User.findById(req.user.id).select("-password");
-        if (!patient) {
-            return res.status(404).json({ msg: "Patient not found" });
+        if (req.user.role !== "Patient") {
+            return res.status(403).json({ msg: "Access denied! Only patients can access this data." });
         }
+
+        const patient = await User.findById(req.user.id).select("-password"); // Exclude password for security
+        if (!patient) return res.status(404).json({ msg: "Patient not found" });
+
         res.json(patient);
     } catch (error) {
         res.status(500).json({ msg: "Server error", error: error.message });
