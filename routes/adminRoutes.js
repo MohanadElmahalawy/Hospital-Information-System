@@ -1,6 +1,7 @@
 const express = require('express');
 const User = require('../models/user');
 const authMiddleware = require('../middleware/authMiddleware');
+const bcrypt = require('bcryptjs'); // Added for password hashing
 
 const router = express.Router();
 
@@ -12,14 +13,18 @@ router.post('/add-doctor', authMiddleware, async (req, res) => {
         if (req.user.role !== 'Admin') {
             return res.status(403).json({ msg: 'Access denied' });
         }
-
+        
         const { firstName, lastName, birthDate, gender, email, phoneNumber, password, expertiseLevel } = req.body;
-
+        
         let existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ msg: 'User already exists' });
         }
-
+        
+        // Hash the password before saving
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        
         const newDoctor = new User({
             firstName,
             lastName,
@@ -27,18 +32,17 @@ router.post('/add-doctor', authMiddleware, async (req, res) => {
             gender,
             email,
             phoneNumber,
-            password,
+            password: hashedPassword, // Store the hashed password instead of plain text
             role: 'Doctor',
             expertiseLevel
         });
-
+        
         await newDoctor.save();
         res.status(201).json({ msg: 'Doctor added successfully', doctor: newDoctor });
     } catch (err) {
         res.status(500).json({ msg: 'Server error' });
     }
 });
-
 /**
  * ✅ Route: Remove a doctor (Admin only)
  */
