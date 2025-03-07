@@ -17,6 +17,7 @@ body {
 
 /* Centered Container */
 .container {
+    margin-top: 100px;
     max-width: 500px;
     background: white;
     padding: 30px;
@@ -93,3 +94,77 @@ p a:hover {
         width: 90%;
     }
 }
+footer {
+    background-color: #003366;
+    color: white;
+    text-align: center;
+    padding: 20px ;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.quick-links a, .social-links a {
+    color: white;
+    text-decoration: none;
+    margin: 10px;
+}
+/* Ensure full height and proper layout */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 100vh;
+}
+
+/* Make container take available space */
+.container {
+    flex: 1; /* Pushes the footer down */
+}
+
+/* Footer at the bottom */
+footer {
+    position: relative;
+}
+header {
+    background-color: #003366;
+    padding: 15px ;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+ .logo {
+    fill:white;
+    margin-right: 20px;
+height: 30px;
+width: 30px;
+}
+ ul {
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+ li {
+    display:inline;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+

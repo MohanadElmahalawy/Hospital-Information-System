@@ -2,11 +2,11 @@
 /* NavBar styles */
 body{
     font-family:roboto,sans-serif;
-    background-color:#aecbe4;
+    background-color:#f5f5f5;
   }
   .NavBar {
     overflow: hidden;
-    background-color: #244667;
+    background-color: #003366;
     display: flex;
     align-items: center;
     border: solid;
@@ -44,12 +44,12 @@ body{
   
   .NavBar a:hover {
     background-color: #91aabf;
-    color: #244667;
+    color: #003366;
   }
   
   .NavBar a.active {
     background-color: #91aabf;
-    color: #244667;
+    color: #003366;
   }
   
   
@@ -81,7 +81,7 @@ body{
   
   /* Footer styles */
   footer {
-      background-color: #244667;
+      background-color: #003366;
       color: #91aabf;
       padding: 20px;
       height: fit-content;
@@ -97,7 +97,7 @@ body{
     border-radius: 20px;
   }
   footer{
-      background-color: #244667;
+      background-color: #003366;
       color: #91aabf;
       padding: 20px;
       height: fit-content;
@@ -133,8 +133,8 @@ body{
   }
   .Doctors{
       border: solid;
-      border-color: #244667;
-      background-color: white;
+      border-color: #003366;
+      background-color: #003366;
       border-width: 5px;
       border-radius: 10px;
       margin-top: 20px;
@@ -146,12 +146,12 @@ body{
   .Doc1, .doc2, .doc3{
     margin: 20px;
     border: solid;
-    border-color: #244667;
+    border-color: #003366;
     border-width: 5px;
     border-radius: 10px;
     padding: 20px;
     text-align: center;
-    color: #244667;
+    color: #003366;
     background-color: #91aabf;
   }
   .parent{
@@ -162,7 +162,7 @@ body{
   }
   .Feedback{
       border: solid;
-      border-color: #244667;
+      border-color: #003366;
       background-color: #91aabf;
       border-width: 5px;
       border-radius: 10px;
@@ -178,7 +178,7 @@ body{
     position: relative;
     margin: auto;
     border:solid;
-    border-color:#244667;
+    border-color:#003366;
     border-radius:2em;
     overflow:hidden;
   }
