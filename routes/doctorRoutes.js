@@ -4,8 +4,21 @@ const User = require("../models/user");
 
 const router = express.Router();
 
-// Edit Doctor Profile
-router.put("/edit-profile", authMiddleware, async (req, res) => {
+// ✅ Route to get all doctors (for patients to view)
+router.get("/", authMiddleware, async (req, res) => {
+  try {
+    const doctors = await User.find({ role: "Doctor" }).select(
+      "firstName lastName phoneNumber expertiseLevel"
+    );
+
+    res.json(doctors);
+  } catch (error) {
+    res.status(500).json({ msg: "Server error", error: error.message });
+  }
+});
+
+// ✅ Route to edit Doctor Profile
+router.put("http://localhost:3000/api/patient/edit-profile", authMiddleware, async (req, res) => {
   try {
     if (req.user.role !== "Doctor") {
       return res
@@ -14,7 +27,6 @@ router.put("/edit-profile", authMiddleware, async (req, res) => {
     }
 
     const { birthDate, email, phoneNumber } = req.body;
-
     const doctor = await User.findById(req.user.id);
     if (!doctor) return res.status(404).json({ msg: "Doctor not found" });
 
@@ -29,6 +41,8 @@ router.put("/edit-profile", authMiddleware, async (req, res) => {
     res.status(500).json({ msg: "Server error", error: error.message });
   }
 });
+
+// ✅ Route to get all patients (for doctors to view)
 router.get("/patients", authMiddleware, async (req, res) => {
   try {
     if (req.user.role !== "Doctor") {

@@ -43,6 +43,16 @@ router.get("/doctors", authMiddleware, async (req, res) => {
         res.status(500).json({ msg: "Server error", error: error.message });
     }
 });
-
+router.get("/me", authMiddleware, async (req, res) => {
+    try {
+        const patient = await User.findById(req.user.id).select("-password");
+        if (!patient) {
+            return res.status(404).json({ msg: "Patient not found" });
+        }
+        res.json(patient);
+    } catch (error) {
+        res.status(500).json({ msg: "Server error", error: error.message });
+    }
+});
 
 module.exports = router;
