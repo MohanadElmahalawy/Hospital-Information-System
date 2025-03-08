@@ -274,3 +274,67 @@ body{
     margin-right:10px;
     color:white;
   }
+  /* Responsive Design Enhancements */
+
+/* Make NavBar responsive */
+@media (max-width: 768px) {
+  .NavBar {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+  }
+  .nav-links {
+      flex-direction: column;
+      gap: 5px;
+  }
+  .NavBar a {
+      display: block;
+      width: 100%;
+  }
+}
+
+/* Ensure the slideshow adapts */
+@media (max-width: 768px) {
+  .slideshow-container {
+      width: 100%;
+      max-width: 100%;
+  }
+  .mySlides img {
+      width: 100%;
+      height: auto;
+  }
+}
+
+/* Make 'Our Specialists' section responsive */
+@media (max-width: 768px) {
+  .parent {
+      flex-direction: column;
+      align-items: center;
+  }
+  .Doc1, .doc2, .doc3 {
+      width: 90%;
+      margin: 10px auto;
+  }
+}
+
+/* Feedback form adjustments */
+@media (max-width: 768px) {
+  .Feedback form {
+      width: 100%;
+  }
+  form input, textarea {
+      width: 90%;
+  }
+}
+
+/* Footer responsiveness */
+@media (max-width: 768px) {
+  .footer-container {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+  }
+  .footer-section {
+      margin-bottom: 15px;
+  }
+}
