@@ -19,25 +19,6 @@ function logout() {
     window.location.href = "login.html"; // Redirect to login page
 }
 
-// Function to calculate age from birthDate
-function calculateAge(birthDate) {
-    if (!birthDate) return "N/A"; // Return N/A if birthDate is missing
-
-    const birth = new Date(birthDate); // Convert string to Date object
-    if (isNaN(birth.getTime())) return "N/A"; // Handle invalid date formats
-
-    const today = new Date();
-    let age = today.getFullYear() - birth.getFullYear();
-    const monthDiff = today.getMonth() - birth.getMonth();
-
-    // If birth month and day haven't occurred yet this year, subtract one year
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-        age--;
-    }
-
-    return age;
-}
-
 // Fetch and display doctor profile info
 async function fetchDoctorInfo(token) {
     try {
@@ -87,33 +68,78 @@ async function fetchPatients(token) {
         }
 
         const patients = await response.json();
-        console.log("Patients list:", patients);
+        console.log("API Response:", patients);
 
-        const patientsTableBody = document.getElementById("patientTable");
-        patientsTableBody.innerHTML = ""; // Clear previous data
-
-        if (patients.length === 0) {
-            patientsTableBody.innerHTML = `<tr><td colspan="3" class="text-center">No patients available</td></tr>`;
+        if (!Array.isArray(patients)) {
+            console.error("Expected an array but got:", patients);
+            alert("Error: Patients data is not in the correct format.");
             return;
         }
 
-        patients.forEach((patient) => {
-            const birthDate = patient.birthDate ? patient.birthDate.split("T")[0] : null; // Extract YYYY-MM-DD format
-            const age = calculateAge(birthDate); // Calculate age properly
+        updatePatientTable(patients);
 
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${patient.firstName} ${patient.lastName}</td>
-                <td>${age}</td>
-                <td>${patient.phoneNumber}</td>
-            `;
-            patientsTableBody.appendChild(row);
-        });
     } catch (error) {
         console.error("Error fetching patients:", error);
         alert("Error fetching patients: " + error.message);
     }
 }
+
+// Function to update patient table
+function updatePatientTable(patients) {
+    const patientsTableBody = document.getElementById("patientTable");
+    patientsTableBody.innerHTML = ""; // Clear previous data
+
+    if (patients.length === 0) {
+        console.warn("No patients found in API response.");
+        patientsTableBody.innerHTML = `<tr><td colspan="3" class="text-center">No patients available</td></tr>`;
+        return;
+    }
+
+    patients.forEach((patient, index) => {
+        console.log(`Processing patient ${index + 1}:`, patient); // ✅ Log each patient
+
+        const birthDate = patient.birthDate ? patient.birthDate.split("T")[0] : "Unknown"; 
+        const age = calculateAge(birthDate); 
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${patient.firstName} ${patient.lastName}</td>
+            <td>${age}</td>
+            <td>${patient.phoneNumber || "N/A"}</td>
+        `;
+        patientsTableBody.appendChild(row);
+    });
+
+    console.log("Table updated successfully.");
+}
+
+// Function to calculate age from birthDate
+function calculateAge(birthDate) {
+    if (!birthDate || birthDate === "Unknown") {
+        console.warn("⚠️ Missing birthDate for patient!");
+        return "N/A"; // Handle missing birthDate
+    }
+
+    const cleanDate = birthDate.split("T")[0];
+    const birth = new Date(cleanDate);
+
+    if (isNaN(birth.getTime())) {
+        console.error(" Invalid birthDate format:", birthDate);
+        return "N/A"; // Handle invalid date formats
+    }
+
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+        age--; // Adjust if birthday hasn't happened yet this year
+    }
+
+    return age;
+}
+
+
 
 // Update doctor profile when clicking the Save button
 document.getElementById("submit").addEventListener("click", async function () {

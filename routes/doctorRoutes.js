@@ -32,7 +32,15 @@ router.put("/edit-profile", authMiddleware, async (req, res) => {
     }
 
     // Update other allowed fields
-    if (birthDate) doctor.birthDate = birthDate;
+    if (birthDate) {
+  const parsedDate = new Date(birthDate);
+  if (!isNaN(parsedDate.getTime())) { 
+    doctor.birthDate = parsedDate;
+  } else {
+    return res.status(400).json({ msg: "Invalid birthDate format" });
+  }
+}
+
     if (phoneNumber) doctor.phoneNumber = phoneNumber;
 
     await doctor.save();
@@ -51,8 +59,10 @@ router.get("/patients", authMiddleware, async (req, res) => {
     }
 
     const patients = await User.find({ role: "Patient" }).select(
-      "firstName lastName age phoneNumber"
+      "firstName lastName birthDate phoneNumber"
     );
+    
+    
 
     res.json(patients);
   } catch (error) {
@@ -67,6 +77,8 @@ router.get("/me", authMiddleware, async (req, res) => {
     }
     
     const doctor = await User.findById(req.user.id).select("-password");
+    console.log("Doctor from DB:", doctor); // Debugging
+
     if (!doctor) return res.status(404).json({ msg: "Doctor not found" });
     
     res.json(doctor);
@@ -74,5 +86,6 @@ router.get("/me", authMiddleware, async (req, res) => {
     res.status(500).json({ msg: "Server error", error: error.message });
   }
 });
+
 
 module.exports = router;
