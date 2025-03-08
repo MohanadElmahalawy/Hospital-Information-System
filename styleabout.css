@@ -97,7 +97,7 @@ height: 100%;
     width: 40%;
     height: 100%;
     font-size:larger;
-  
+
     margin-left: 20px;
     justify-items: center;
     line-height: 1.8;
@@ -107,15 +107,18 @@ height: 100%;
     font-size:x-large;
 
   }
-  footer {
+ /* Footer settings */
+footer {
     background-color: #003366;
     color: white;
     text-align: center;
-    padding: 20px ;
-    margin-top: 30px;
-    bottom: 0;
+    padding: 20px;
     width: 100%;
     margin-top: auto;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    top:480px;
 }
 
 .footer-content {
@@ -129,3 +132,4 @@ height: 100%;
     text-decoration: none;
     margin: 10px;
 }
+
